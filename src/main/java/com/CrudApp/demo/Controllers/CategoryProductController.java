@@ -3,6 +3,8 @@ package com.CrudApp.demo.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,9 +41,9 @@ public class CategoryProductController {
 	
 	/* GET ALL PRODUCT FULL DETAILS WITH CATEGORY API */
 	@GetMapping("products")
-	public List<Product> getAllProducts()
+	public List<Product> getAllProducts(@RequestParam(name = "page", required = false, defaultValue = "0") int pageNo)
 	{
-		return productRepo.findAll();
+		return productRepo.findAll(PageRequest.of(pageNo,5)).toList();
 	}
 
 	/* GET PRODUCT BY ID API */
@@ -88,9 +90,9 @@ public class CategoryProductController {
 	
 	/* GET ALL CATEGORIES  */
 	@GetMapping("categories")
-	public List<Category> getAllCategories()
+	public List<Category> getAllCategories(@RequestParam(name = "page",required = false,defaultValue = "0") int pageNo)
 	{
-		return categoryRepo.findAll();
+		return categoryRepo.findAll(PageRequest.of(pageNo, 3)).toList();
 	}
 	
 	/* GET CATEGORY BY ID */
